@@ -1,3 +1,4 @@
+
 import cv2
 from djitellopy import Tello
 import time
@@ -39,7 +40,6 @@ try:
         annotated_frame = results[0].plot()
 
         # Show frames
-        cv2.imshow("Tello Original Frame", img)
         cv2.imshow("YOLO-Tello", annotated_frame)
 
         # Check if any object detected
@@ -48,7 +48,7 @@ try:
             print(f"[INFO] Detected something! Counter: {counter}")
             tello.send_rc_control(0, 0, 0, 0)  # stop movement
             time.sleep(15)  # pause 15 sec
-            continue  # skip zigzag this loop
+
 
         # Move in zigzag
         zigzag(tello, step=65)
@@ -61,6 +61,7 @@ try:
 
     # Safe exit
     tello.land()
+    print(f"[INFO] Detected all! Counter: {counter}")
     tello.streamoff()
     tello.end()
     cv2.destroyAllWindows()
