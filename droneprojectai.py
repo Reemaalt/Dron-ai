@@ -9,7 +9,6 @@ tello = Tello()
 tello.connect()
 print(f"Battery: {tello.get_battery()}%")
 tello.streamon()  # Start video stream
-frame_read = tello.get_frame_read()
 
 # Load YOLO model
 model = YOLO("best.pt")
@@ -31,10 +30,10 @@ def zigzag(drone, step=65):
 try:
     while True:
         # Get video frame
-        img = frame_read.frame
+        img =  tello.get_frame_read().frame
 
         # Run YOLO inference
-        results = model(img, verbose=False)
+        results = model(img)
 
         # Annotated frame with detections
         annotated_frame = results[0].plot()
