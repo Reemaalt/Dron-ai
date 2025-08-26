@@ -1,6 +1,7 @@
 import cv2
 from djitellopy import Tello
 import time
+from ultralytics import YOLO
 
 # initialize Tello
 tello = Tello()
@@ -8,40 +9,37 @@ tello.connect()
 print(f"Battery: {tello.get_battery()}%")
 tello.streamon()  # Start video stream
 frame_read = tello.get_frame_read()
-'''
-model = YOLO()
 
-'''
+# Load YOLO model
+model = YOLO("best.pt")
+
 counter = 0
 
 # Takeoff
 tello.takeoff()
 time.sleep(2)
-tello.move_up(50)
+tello.move_up(60)
 
 # Define Zigzag Movement
-def zigzag(drone, step=50):
-
+def zigzag(drone, step=65):
     drone.move_forward(step)
     drone.move_right(step)
     drone.move_forward(step)
     drone.move_left(step)
 
-
 try:
     while True:
         # Get video frame
         img = frame_read.frame
-        # results = model (img)
-        # Show frames // change to show model frame so we see real time :)
-        cv2.imshow("Tello Original Frame", img)
 
-        # Check keys
-        key = cv2.waitKey(1) & 0xFF
+        # Run YOLO inference
+        results = model(img, verbose=False)
 
-        # Draw detections
-        """
+        # Annotated frame with detections
         annotated_frame = results[0].plot()
+
+        # Show frames
+        cv2.imshow("Tello Original Frame", img)
         cv2.imshow("YOLO-Tello", annotated_frame)
 
         # Check if any object detected
@@ -50,17 +48,16 @@ try:
             print(f"[INFO] Detected something! Counter: {counter}")
             tello.send_rc_control(0, 0, 0, 0)  # stop movement
             time.sleep(15)  # pause 15 sec
-        """
-        # Quit program
-        if key == ord('q'):
-            break
-
-        # Run placeholder model
-
+            continue  # skip zigzag this loop
 
         # Move in zigzag
-        zigzag(tello, step=50)
+        zigzag(tello, step=65)
         time.sleep(1)
+
+        # Check keys
+        key = cv2.waitKey(1) & 0xFF
+        if key == ord('q'):
+            break
 
     # Safe exit
     tello.land()
