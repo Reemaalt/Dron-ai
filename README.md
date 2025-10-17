@@ -1,6 +1,8 @@
 # ♻️ CLAVIRA: Drone-Based Waste Detection Using AI
 
-![CLAVIRA Project Banner](CLAVIRA.png)
+<p align="center">
+  <img src="CLAVIRA.png" alt="CLAVIRA Project Banner" width="80%">
+</p>
 
 ### Overview  
 **CLAVIRA** is an innovative environmental project developed as part of the **Tuwaiq Academy – Operating Drones with Artificial Intelligence Algorithms** program.  
