@@ -1,7 +1,7 @@
 # ♻️ CLAVIRA: Drone-Based Waste Detection Using AI
 
 <p align="center">
-  <img src="CLAVIRA.png" alt="CLAVIRA Project Banner" width="50%">
+  <img src="CLAVIRA.png" alt="CLAVIRA Project Banner" width="30%">
 </p>
 
 ### Overview  
